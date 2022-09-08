@@ -1,0 +1,157 @@
+body {
+  background-color: #282c34;;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  position: absolute;
+  top:15%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%); 
+}
+
+.connect-bottom {
+  padding: 10px;
+  border-radius: 25px;
+  font-size: 30px;
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(255, 255, 255);
+  background-color: blueviolet;
+}
+
+.mint-bottom {
+  padding: 10px;
+  border-radius: 25px;
+  font-size: 30px;
+  position: absolute;
+  bottom: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(255, 255, 255);
+  background-color: blueviolet;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+#install {
+  color: black;
+}
+
+.App-link {
+  color: #61dafb;
+  position: absolute;
+  bottom: 5%;
+} 
+
+.navbar {
+  background-color: rgb(54, 54, 54);
+  color: rgb(215, 215, 215);
+  padding: 5px;
+}
+
+.info {
+  position: absolute;
+  bottom: 30px;
+  padding: 10px;
+}
+
+.build-by {
+  position: absolute;
+  bottom: 20px;
+  color: black;
+}
+
+.ether-accounts{
+  position: absolute;
+  text-align: left;
+  top: 100px;
+  left: 15px;
+  font-size: 10px;
+}
+
+.twitter-logo {
+  left: 15px;
+  top: 20px;
+  position: absolute;
+}
+
+.github-logo {
+  left: 100px;
+  top: 20px;
+  position: absolute;
+}
+
+.navbar-header {
+  text-align: center;
+  top: 1px;
+}
+
+li {
+  list-style-type: none;
+  overflow: hidden;
+}
+
+#link-to-chat {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  font-size: 20px;
+}
+
+#link-to-mint {
+  position: absolute;
+  top: 20px;
+  right: 450px;
+  font-size: 20px;
+}
+
+#link-to-app {
+  position: absolute;
+  top: 20px;
+  right: 200px;
+  font-size: 20px;
+}
+
+a:link, a:visited {
+  border-radius: 25px;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover {
+  color: rgb(3, 3, 3);
+}
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
