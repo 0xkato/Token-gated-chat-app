@@ -1,0 +1,23 @@
+{
+  "name": "first_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xkato/Token-gated-chat-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0xkato/Token-gated-chat-app/issues"
+  },
+  "homepage": "https://github.com/0xkato/Token-gated-chat-app#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "gun": "^0.2020.1238"
+  }
+}
