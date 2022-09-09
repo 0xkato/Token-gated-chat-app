@@ -1,18 +1,31 @@
-import React, { Component } from 'react';
-import "./chat.css"
+import { useEffect, useState, useReducer  } from "react";
+import Gun from "gun";
 
-class Chat extends Component {
-// going to be a full on chat 
-  render() {
-    return (
-      <div>
-          <div className="chat-room-header">
-        <h1>Chat Room</h1>
-          </div>
-          <p className='chat-room-text'>going to be a chat Room for token holders! hi</p>
-      </div>
-    );
+const gun = Gun({
+  peers: [
+    'http://localhost:3030/gun'
+  ]
+})
+
+const initialState = {
+  messsages: []
+}
+
+function reducer(state, meassage) {
+  return {
+    meassage: [message, ...state.message]
   }
 }
 
-export default Chat;
+export default function chat() {
+  const [fromState, setForm] = useState({
+    name: '', message: ''
+  })
+
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  function onChange(e){
+    setForm({ ...fromState, [e.target.name]: e.target.value })
+  }
+
+}
