@@ -3,3 +3,8 @@
     padding: 5px;
     left: 50%;
 }
+
+.msgs {
+    background-color: rgb(25, 25, 25);
+    color: antiquewhite;
+  }

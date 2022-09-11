@@ -1,5 +1,6 @@
 import { useEffect, useState, useReducer } from 'react'
 import Gun from 'gun'
+import "./chat.css"
 //import Wallet from "../App"
 
 // initialize gun locally
@@ -62,7 +63,7 @@ export default function App() {
   }
 
   return (
-    <div style={{ padding: 30 }}>
+    <div style={{ padding: 20 }}>
       <input
         onChange={onChange}
         placeholder="Name"
@@ -78,10 +79,12 @@ export default function App() {
       <button onClick={saveMessage}>Send Message</button>
       {
         state.messages.map(message => (
-          <div key={message.createdAt} style={{ padding: 10 }}>
-            <h3>{message.message}</h3>
-            <h3>From: {message.name}</h3>
-            <p>Date: {message.createdAt}</p>
+          <div key={message.createdAt}>
+            <div className='msgs'>
+            <h4>{message.message}</h4>
+            <h4>From: {message.name}</h4>
+            <h4>Date: {message.createdAt}</h4>
+            </div>
           </div>
         ))
       }
