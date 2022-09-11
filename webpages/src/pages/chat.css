@@ -1,8 +1,5 @@
-.chat-room-header {
-    text-align: center;
-}
-
-.chat-room-text{
-    text-align: center;
-    top: 50%;
+.message-box{
+    top: 80%;
+    padding: 5px;
+    left: 50%;
 }

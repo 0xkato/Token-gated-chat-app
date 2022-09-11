@@ -1,5 +1,6 @@
 import { useEffect, useState, useReducer } from 'react'
 import Gun from 'gun'
+//import Wallet from "../App"
 
 // initialize gun locally
 const gun = Gun({
@@ -77,8 +78,8 @@ export default function App() {
       <button onClick={saveMessage}>Send Message</button>
       {
         state.messages.map(message => (
-          <div key={message.createdAt}>
-            <h2>{message.message}</h2>
+          <div key={message.createdAt} style={{ padding: 10 }}>
+            <h3>{message.message}</h3>
             <h3>From: {message.name}</h3>
             <p>Date: {message.createdAt}</p>
           </div>
