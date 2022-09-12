@@ -1,6 +1,7 @@
 import { useEffect, useState, useReducer } from 'react'
 import Gun from 'gun'
 import "./chat.css"
+import moment from "moment"
 //import Wallet from "../App"
 
 // initialize gun locally
@@ -85,7 +86,7 @@ export default function App() {
             <div className='msgs'>
             <h4>{message.message}</h4>
             <h4>From: {message.name}</h4>
-            <h4>Date: {message.createdAt}</h4>
+            <h4>Date: {moment(message.createdAt).format("LLL")}</h4>
             </div>
           </div>
         ))
