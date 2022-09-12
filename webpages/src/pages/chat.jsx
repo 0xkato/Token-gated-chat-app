@@ -65,12 +65,14 @@ export default function App() {
   return (
     <div style={{ padding: 20 }}>
       <input
+        maxLength={20} 
         onChange={onChange}
         placeholder="Name"
         name="name"
         value={formState.name}
       />
       <input
+        maxLength={100} 
         onChange={onChange}
         placeholder="Message"
         name="message"
