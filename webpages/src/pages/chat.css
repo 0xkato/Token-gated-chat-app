@@ -4,7 +4,15 @@
     left: 50%;
 }
 
+.msg-box{
+    padding: 10px;
+}
+
 .msgs {
     background-color: rgb(25, 25, 25);
+    padding: 15px;
+    border-radius: 25%;
+    width: 400px;
     color: antiquewhite;
+    font-size: 15px;
   }

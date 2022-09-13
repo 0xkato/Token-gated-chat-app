@@ -64,7 +64,7 @@ export default function App() {
   }
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ padding: 30 }}>
       <input
         maxLength={20} 
         onChange={onChange}
@@ -82,11 +82,11 @@ export default function App() {
       <button onClick={saveMessage}>Send Message</button>
       {
         state.messages.map(message => (
-          <div key={message.createdAt}>
+          <div key={message.createdAt} className="msg-box" >
             <div className='msgs'>
-            <h4>{message.message}</h4>
             <h4>From: {message.name}</h4>
-            <h4>Date: {moment(message.createdAt).format("LLL")}</h4>
+            <h4>{message.message}</h4>
+            <h4>Date: {moment(message.createdAt).format("LLLL")}</h4>
             </div>
           </div>
         ))
