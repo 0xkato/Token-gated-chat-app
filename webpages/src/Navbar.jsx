@@ -1,4 +1,4 @@
-import "./App.js"
+import "./App.jsx"
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import "./index.js";

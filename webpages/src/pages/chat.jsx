@@ -54,15 +54,15 @@ export default function Chat() {
     setForm({ ...formState, [e.target.name]: e.target.value  })
   }
 
-  console.log("hi");
-
+  
   const contractABI = abi.abi;
-  const { address } = useAccount();                             // Hook to fetch your wallet address
+  const [ address ] = useAccount();                             // Hook to fetch your wallet address
   const contractAddress = "0x512cebB7aC6c754301FA7E2A4D405fd9608d8a7f";        // Your smart contract address
   const contract = useContract({                                // Hook to fetch contract interface
       addressOrName: contractAddress,
       contractInterface: contractABI,
   });
+  console.log(address)
 
   const isNFTHolder = async () => {
     // This will check if your wallet have a balance of more than 0. 
@@ -108,7 +108,7 @@ export default function Chat() {
             <div className='msgs'>
             <h4>From: {message.name}</h4>
             <h4>{message.message}</h4>
-            <h4>Date: {moment(message.createdAt).format("LLLL")}</h4>
+            <h4>Date: {moment(message.createdAt).format("LLL")}</h4>
             </div>
           </div>
         ))
