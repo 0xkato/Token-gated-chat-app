@@ -2,9 +2,9 @@ import { useEffect, useState, useReducer } from 'react'
 import Gun from 'gun'
 import "./chat.css"
 import moment from "moment"
-import "../App"
-import abi from "../utils/Mint.json";           // This should be your smart contract ABI
-import { useAccount, useContract } from "wagmi";        // This is used to get your wallet address
+import "../App.jsx"
+import abi from "../utils/Mint.json";
+import { useAccount, useContract } from "wagmi";
 
 
 // initialize gun locally
@@ -62,7 +62,7 @@ export default function Chat() {
       addressOrName: contractAddress,
       contractInterface: contractABI,
   });
-  console.log(address)
+  console.log(contractAddress);
 
   const isNFTHolder = async () => {
     // This will check if your wallet have a balance of more than 0. 
