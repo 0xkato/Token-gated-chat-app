@@ -2,7 +2,8 @@ import { useEffect, useState, useReducer } from 'react'
 import Gun from 'gun'
 import "./chat.css"
 import moment from "moment"
-//import Wallet from "../App"
+import "../App"
+import { useAccount } from "wagmi";
 
 // initialize gun locally
 const gun = Gun({
@@ -23,27 +24,43 @@ function reducer(state, message) {
   }
 }
 
-export default function App() {
-  // the form state manages the form input for creating a new message
+export default function Chat() {
+  const { address } = useAccount();                             // Hook to fetch your wallet address
+  const contractAddress = "0x512cebB7aC6c754301FA7E2A4D405fd9608d8a7f";        // Your smart contract address
+
+  const isNFTHolder = async () => {
+    const API_KEY = "D4RAV269VAHZ5V2P39GFQ88XXYYG85UYUA";
+    const CONTRACT_ADDRESS = "";
+    const baseURL = `https://api.etherscan.io/api?
+                module=account&action=tokennfttx&
+                contractaddress=${CONTRACT_ADDRESS}&
+                address=${address}&
+                page=1&
+                offset=100&
+                startblock=0&
+                sort=asc&
+                apikey=${API_KEY}`
+                
+    const data = await fetch(baseURL);
+    
+    // Loop through array to see if the contract sent any NFT to your account
+    // If it exist, it'll return true
+    data.result.map(result => {
+      if (result.to === address) {
+        return true;
+      }
+    });
+   
+    return false;
+  };
+
+
     const [formState, setForm] = useState({
     name: '', message: ''
   })
 
   // initialize the reducer & state for holding the messages array
   const [state, dispatch] = useReducer(reducer, initialState)
-
-  // when the app loads, fetch the current messages and load them into the state
-  // this also subscribes to new data as it changes and updates the local state
-  useEffect(() => {
-    const messages = gun.get('messages')
-    messages.map().on(m => {
-      dispatch({
-        name: m.name,
-        message: m.message,
-        createdAt: m.createdAt
-      })
-    })
-  }, [])
 
   // set a new message in gun, update the local state to reset the form field
   function saveMessage() {
@@ -62,6 +79,20 @@ export default function App() {
   function onChange(e) {
     setForm({ ...formState, [e.target.name]: e.target.value  })
   }
+
+   // when the app loads, fetch the current messages and load them into the state
+  // this also subscribes to new data as it changes and updates the local state
+  useEffect(() => {
+    isNFTHolder(contractAddress);
+    const messages = gun.get('messages')
+    messages.map().on(m => {
+      dispatch({
+        name: m.name,
+        message: m.message,
+        createdAt: m.createdAt
+      })
+    })
+  }, [])
 
   return (
     <div style={{ padding: 30 }}>
