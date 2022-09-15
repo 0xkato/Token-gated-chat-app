@@ -3,7 +3,9 @@ import Gun from 'gun'
 import "./chat.css"
 import moment from "moment"
 import "../App"
-import { useAccount } from "wagmi";
+import abi from "../utils/Mint.json";           // This should be your smart contract ABI
+import { useAccount, useContract } from "wagmi";        // This is used to get your wallet address
+
 
 // initialize gun locally
 const gun = Gun({
@@ -25,37 +27,9 @@ function reducer(state, message) {
 }
 
 export default function Chat() {
-  const { address } = useAccount();                             // Hook to fetch your wallet address
-  const contractAddress = "0x512cebB7aC6c754301FA7E2A4D405fd9608d8a7f";        // Your smart contract address
-
-  const isNFTHolder = async () => {
-    const API_KEY = "D4RAV269VAHZ5V2P39GFQ88XXYYG85UYUA";
-    const CONTRACT_ADDRESS = "";
-    const baseURL = `https://api.etherscan.io/api?
-                module=account&action=tokennfttx&
-                contractaddress=${CONTRACT_ADDRESS}&
-                address=${address}&
-                page=1&
-                offset=100&
-                startblock=0&
-                sort=asc&
-                apikey=${API_KEY}`
-                
-    const data = await fetch(baseURL);
-    
-    // Loop through array to see if the contract sent any NFT to your account
-    // If it exist, it'll return true
-    data.result.map(result => {
-      if (result.to === address) {
-        return true;
-      }
-    });
-   
-    return false;
-  };
 
 
-    const [formState, setForm] = useState({
+  const [formState, setForm] = useState({
     name: '', message: ''
   })
 
@@ -80,10 +54,27 @@ export default function Chat() {
     setForm({ ...formState, [e.target.name]: e.target.value  })
   }
 
+  console.log("hi");
+
+  const contractABI = abi.abi;
+  const { address } = useAccount();                             // Hook to fetch your wallet address
+  const contractAddress = "0x512cebB7aC6c754301FA7E2A4D405fd9608d8a7f";        // Your smart contract address
+  const contract = useContract({                                // Hook to fetch contract interface
+      addressOrName: contractAddress,
+      contractInterface: contractABI,
+  });
+
+  const isNFTHolder = async () => {
+    // This will check if your wallet have a balance of more than 0. 
+    // If it's true, it means the wallet contains an NFT from your contract.
+    const data = await contract.methods.balanceOf(address).call();
+    return parseInt(data, 10) > 0;
+  };
+
    // when the app loads, fetch the current messages and load them into the state
   // this also subscribes to new data as it changes and updates the local state
   useEffect(() => {
-    isNFTHolder(contractAddress);
+    isNFTHolder();
     const messages = gun.get('messages')
     messages.map().on(m => {
       dispatch({
