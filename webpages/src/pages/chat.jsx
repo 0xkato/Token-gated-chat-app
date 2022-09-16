@@ -19,6 +19,9 @@ const initialState = {
   messages: []
 }
 
+
+export default function Chat() {
+
 // Create a reducer that will update the messages array
 function reducer(state, message) {
   return {
@@ -26,7 +29,6 @@ function reducer(state, message) {
   }
 }
 
-export default function Chat() {
 
 
   const [formState, setForm] = useState({
@@ -56,9 +58,9 @@ export default function Chat() {
 
   
   const contractABI = abi.abi;
-  const [ address ] = useAccount();                             // Hook to fetch your wallet address
+  const [ address ] = useAccount();                                            // Hook to fetch your wallet address
   const contractAddress = "0x512cebB7aC6c754301FA7E2A4D405fd9608d8a7f";        // Your smart contract address
-  const contract = useContract({                                // Hook to fetch contract interface
+  const contract = useContract({                                               // Hook to fetch contract interface
       addressOrName: contractAddress,
       contractInterface: contractABI,
   });

@@ -16,17 +16,25 @@ contract Mint is ERC721URIStorage {
 
     event mintNewChatPassNFT(address sender, uint256 tokenId);
 
+  function balanceOf(address _owner) external view returns (uint256) {
+    require(_owner != address(0));
+    return ownerToNFTokenCount[_owner];
+  }
+
     // Mint a ERC721 token to the callers wallet
     function mintNewChatPass() public {
         uint256 newItemId = _tokenIds.current();
 
+        // mint function
         _safeMint(msg.sender, newItemId);
 
         // the metadata
         _setTokenURI(newItemId, "data:application/json;base64,ewogICAgIm5hbWUiOiAiQ2hhdFBhc3MiLAogICAgImRlc2NyaXB0aW9uIjogIlRoaXMgTkZUIHdpbGwgYWxsb3cgeW91IHRvIHVzZSB1ciBzdXBlciBjaGF0IiwKICAgICJpbWFnZSI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSEJ5WlhObGNuWmxRWE53WldOMFVtRjBhVzg5SW5oTmFXNVpUV2x1SUcxbFpYUWlJSFpwWlhkQ2IzZzlJakFnTUNBek5UQWdNelV3SWo0S0lDQWdJRHh6ZEhsc1pUNHVZbUZ6WlNCN0lHWnBiR3c2SUhkb2FYUmxPeUJtYjI1MExXWmhiV2xzZVRvZ2MyVnlhV1k3SUdadmJuUXRjMmw2WlRvZ01UUndlRHNnZlR3dmMzUjViR1UrQ2lBZ0lDQThjbVZqZENCM2FXUjBhRDBpTVRBd0pTSWdhR1ZwWjJoMFBTSXhNREFsSWlCbWFXeHNQU0ppYkdGamF5SWdMejRLSUNBZ0lEeDBaWGgwSUhnOUlqVXdKU0lnZVQwaU5UQWxJaUJqYkdGemN6MGlZbUZ6WlNJZ1pHOXRhVzVoYm5RdFltRnpaV3hwYm1VOUltMXBaR1JzWlNJZ2RHVjRkQzFoYm1Ob2IzSTlJbTFwWkdSc1pTSStRMmhoZENCUVlYTnpQQzkwWlhoMFBnbzhMM04yWno0PSIKfQ==");
   
+        // tokenID goes up by 1
         _tokenIds.increment();
 
+        // event for every minted NFT
         emit mintNewChatPassNFT(msg.sender, newItemId);
     }
 }
