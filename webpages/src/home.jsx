@@ -1,22 +1,26 @@
-import lock_img from "./imgs/lock.png";
+import lock_img from "./imgs/no-log.png";
 import chat_img from "./imgs/chat.png";
+import "./Home.css";
 
 function Home() {
     
     return (
       <div className="Home">
-    <h1>Home</h1>
-    <p>Decent chat is a chatting platform, made with the intent of keeping the people of crypto Safe and sound,
-       While comunicating both in terms of there assets but also there data.
-    </p>
-
-
+        <div className="home-text">
+    <h1>SuperChat</h1>
+    <p>This is a chatting platform, Where you you will have to mint a Chat Pass to be able to chat</p>
+    </div>
+    
+    <div className="features">
     <img src={lock_img} className="lock-img" alt="Lock-Icon"/>
-    <p>no trancactions</p>
 
-        <img src={chat_img} className="chat-img" alt="Chat-Icon"/> 
-        <p>Chat with your friends or something</p>
-        </div>
+    <img src={chat_img} className="chat-img" alt="Chat-Icon"/> 
+    </div>
+
+        <p className="lock-text">NO TRANCACTIONS</p>
+        <p className="chat-text">CHAT WITH YOUR FRIENDS OR SOMETHING</p>
+    
+    </div>
 
       
     );

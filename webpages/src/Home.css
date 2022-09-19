@@ -1,0 +1,52 @@
+body{
+    text-align: center;
+    color: antiquewhite;
+}
+
+.home-text{
+    padding-bottom: 13%;
+}
+
+.features {
+    background: white;
+    color: gray;
+    padding: 20px;
+    margin-bottom: 50px;
+    padding-bottom: 60px;
+    display: flex;
+  }
+
+.chat-img{
+    float: left;
+    width: 200px;
+    right: 200px;
+    margin:auto;
+}
+
+.lock-img{
+    width: 200px;
+    float: right;
+    margin:auto;
+}
+
+.lock-text{
+    margin: auto;
+    position: absolute;
+    bottom: 45px;
+    left: 260px;
+    display: flex;
+    color: gray;
+    font-size: 20px;
+    padding-left: 20px;
+}
+
+.chat-text{
+    margin: auto;
+    position: absolute;
+    bottom: 45px;
+    left: 850px;
+    display: flex;
+    color: gray;
+    font-size: 20px;
+    padding-left: 20px;
+}

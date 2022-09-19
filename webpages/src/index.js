@@ -18,7 +18,7 @@ root.render(
     <Route index element={<Home />} />
     <Route path="Mint" element={<App />} />
     <Route path="Chat" element={<Chat />} />
-    <Route path="*" element={<App />} />
+    <Route path="*" element={<Home />} />
     </Route>
   </Routes>
 </BrowserRouter> 
