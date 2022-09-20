@@ -22,7 +22,7 @@ class Navbar extends Component {
             <img src={twitter} className="twitter-logo" alt="twitter logo" height="43px"/>
           </a> 
           <a
-            href="https://github.com/shr1mpii"
+            href="https://github.com/0xkato"
           >
             <img src={github} className="github-logo" alt="github logo" height="43px"/>
           </a>
