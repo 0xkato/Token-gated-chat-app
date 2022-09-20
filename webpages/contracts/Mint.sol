@@ -16,11 +16,6 @@ contract Mint is ERC721URIStorage {
 
     event mintNewChatPassNFT(address sender, uint256 tokenId);
 
-  function balanceOf(address _owner) external view returns (uint256) {
-    require(_owner != address(0));
-    return ownerToNFTokenCount[_owner];
-  }
-
     // Mint a ERC721 token to the callers wallet
     function mintNewChatPass() public {
         uint256 newItemId = _tokenIds.current();

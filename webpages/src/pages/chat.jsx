@@ -29,8 +29,6 @@ function reducer(state, message) {
   }
 }
 
-
-
   const [formState, setForm] = useState({
     name: '', message: ''
   })
@@ -56,15 +54,18 @@ function reducer(state, message) {
     setForm({ ...formState, [e.target.name]: e.target.value  })
   }
 
-  
+  console.log("Test1");
+
   const contractABI = abi.abi;
-  const [ address ] = useAccount();                                            // Hook to fetch your wallet address
+  const {account} = useAccount();      
+  const address = account;                                                // Hook to fetch your wallet address
   const contractAddress = "0x512cebB7aC6c754301FA7E2A4D405fd9608d8a7f";        // Your smart contract address
   const contract = useContract({                                               // Hook to fetch contract interface
       addressOrName: contractAddress,
       contractInterface: contractABI,
   });
-  console.log(contractAddress);
+
+  console.log("Test2");
 
   const isNFTHolder = async () => {
     // This will check if your wallet have a balance of more than 0. 
@@ -73,7 +74,7 @@ function reducer(state, message) {
     return parseInt(data, 10) > 0;
   };
 
-   // when the app loads, fetch the current messages and load them into the state
+  // when the app loads, fetch the current messages and load them into the state
   // this also subscribes to new data as it changes and updates the local state
   useEffect(() => {
     isNFTHolder();
