@@ -77,15 +77,16 @@ function reducer(state, message) {
   // when the app loads, fetch the current messages and load them into the state
   // this also subscribes to new data as it changes and updates the local state
   useEffect(() => {
-    isNFTHolder();
     const messages = gun.get('messages')
-    messages.map().on(m => {
-      dispatch({
-        name: m.name,
-        message: m.message,
-        createdAt: m.createdAt
-      })
+    messages.map().on((message, id) => {
+      dispatch(message)
     })
+
+    isNFTHolder().then((result) => {
+      console.log('isNFTHolder results',result);
+    }
+    );
+
   }, [])
 
   return (
