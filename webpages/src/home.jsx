@@ -3,6 +3,8 @@ import chat_img from "./imgs/chat.png";
 import "./Home.css";
 
 function Home() {
+
+    console.log("test1")
     
     return (
       <div className="Home">

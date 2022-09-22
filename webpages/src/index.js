@@ -1,10 +1,10 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
-import App from './App';
-import Home from "./home";
-import Layout from "./layout";
-import Chat from "./pages/chat";
+import App from './App.jsx';
+import Home from "./Home.jsx";
+import Layout from "./layout.jsx";
+import Chat from "./pages/chat.jsx";
 import reportWebVitals from './reportWebVitals';
 import { WagmiConfig, createClient } from 'wagmi'
 import { getDefaultProvider } from 'ethers'
