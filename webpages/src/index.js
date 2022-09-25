@@ -6,8 +6,8 @@ import Chat from "./pages/chat.jsx";
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
-import { WagmiConfig, createClient } from 'wagmi'
-import { getDefaultProvider } from 'ethers'
+import { WagmiConfig, createClient } from 'wagmi';
+import { getDefaultProvider } from 'ethers';
 
 const client = createClient({
   autoConnect: true,

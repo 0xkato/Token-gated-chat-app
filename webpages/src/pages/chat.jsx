@@ -57,7 +57,7 @@ function reducer(state, message) {
   console.log("Test1");
 
   const contractABI = abi.abi;
-  const {account} = useAccount();      
+  const { account } = useAccount();      
   const address = account;                                                     // Hook to fetch your wallet address
   const contractAddress = "0x512cebB7aC6c754301FA7E2A4D405fd9608d8a7f";        // Your smart contract address
   const contract = useContract({                                               // Hook to fetch contract interface
