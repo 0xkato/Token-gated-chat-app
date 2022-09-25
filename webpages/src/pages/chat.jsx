@@ -54,8 +54,6 @@ function reducer(state, message) {
     setForm({ ...formState, [e.target.name]: e.target.value  })
   }
 
-  console.log("Test1");
-
   const contractABI = abi.abi;
   const { account } = useAccount();      
   const address = account;                                                     // Hook to fetch your wallet address
@@ -65,12 +63,10 @@ function reducer(state, message) {
       contractInterface: contractABI,
   });
 
-  console.log("this is the contract address", contractAddress);
-
   const isNFTHolder = async () => {
     // This will check if your wallet have a balance of more than 0. 
     // If it's true, it means the wallet contains an NFT from your contract.
-    const data = await contract.methods.balanceOf(address).call();
+    const data = await contract.methods.balanceOf(0x28828E0D91F5464441f1D3E0758C469220d374B3).call();
     return parseInt(data, 10) > 0;
   };
 
