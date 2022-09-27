@@ -4,6 +4,7 @@ import "./chat.css"
 import moment from "moment"
 import "../App.jsx"
 import abi from "../utils/Mint.json";
+import { ethers } from "ethers";
 import { useAccount, useContract } from "wagmi";
 
 
@@ -57,11 +58,12 @@ function reducer(state, message) {
   const contractABI = abi.abi;
   const { account } = useAccount();      
   const address = account;                                                     // Hook to fetch your wallet address
-  const contractAddress = "0x512cebB7aC6c754301FA7E2A4D405fd9608d8a7f";        // Your smart contract address
+  const contractAddress = "0x2e1e4F97Aa633c7fd8395a710140645d0F6016c0";        // Your smart contract address
   const contract = useContract({                                               // Hook to fetch contract interface
       addressOrName: contractAddress,
       contractInterface: contractABI,
   });
+  
 
   const isNFTHolder = async () => {
     // This will check if your wallet have a balance of more than 0. 

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.1;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -15,11 +15,6 @@ contract Mint is ERC721URIStorage {
     }
 
     event mintNewChatPassNFT(address sender, uint256 tokenId);
-
-  function balanceOf(address _owner) external view returns (uint256) {
-    require(_owner != address(0));
-    return ownerToNFTokenCount[_owner];
-  }
 
     // Mint a ERC721 token to the callers wallet
     function mintNewChatPass() public {
