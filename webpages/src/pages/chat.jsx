@@ -1,4 +1,4 @@
-import { useEffect, useState, useReducer } from 'react'
+import React, { useEffect, useState, useReducer } from 'react'
 import Gun from 'gun'
 import "./chat.css"
 import moment from "moment"
@@ -56,7 +56,7 @@ function reducer(state, message) {
 
   const contractABI = abi.abi;
   const { account } = useAccount();      
-  const address = 0x28828E0D91F5464441f1D3E0758C469220d374B3;                                                     // Hook to fetch your wallet address
+  const address = account;                                                     // Hook to fetch your wallet address
   const contractAddress = "0x512cebB7aC6c754301FA7E2A4D405fd9608d8a7f";        // Your smart contract address
   const contract = useContract({                                               // Hook to fetch contract interface
       addressOrName: contractAddress,
