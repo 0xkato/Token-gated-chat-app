@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useReducer } from 'react'
-import Gun from 'gun'
-import "./chat.css"
-import moment from "moment"
-import "../App.jsx"
+import React, { useEffect, useState, useReducer } from 'react';
+import Gun from 'gun';
+import "./chat.css";
+import moment from "moment";
+import "../App.jsx";
 import abi from "../utils/Mint.json";
 import { ethers } from "ethers";
 import { useAccount, useContract } from "wagmi";
