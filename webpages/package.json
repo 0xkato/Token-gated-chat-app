@@ -48,7 +48,7 @@
     "eth-ens-namehash": "^2.0.8",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.7.1",
-    "hardhat": "^2.10.2"
+    "hardhat": "^2.11.2"
   },
   "overrides": {
     "got": "^12.1.0"
