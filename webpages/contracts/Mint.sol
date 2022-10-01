@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.1;
+pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "hardhat/console.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 library Base64 {
     string internal constant TABLE_ENCODE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -130,47 +129,86 @@ library Base64 {
     }
 }
 
-contract Mint is ERC721 {
+contract Mint is ERC721, ERC721Enumerable, Ownable {
+    mapping(string => bool) private takenNames;
+    mapping(uint256 => Attr) public attributes;
 
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
-
-    constructor() ERC721("Some Random Chat App", "Chat") {
+    struct Attr {
+        string name;
+        uint256 number;
     }
 
-    event mintNewChatPassNFT(address sender, uint256 tokenId);
+    constructor() ERC721("ChatPass", "Chat") {}
 
-
-    // Mint a ERC721 token to the callers wallet
-    function mintNewChatPass() public {
-        uint256 newItemId = _tokenIds.current();
-
-        // mint function
-        _mint(msg.sender, newItemId);
-
-        // tokenID goes up by 1
-        _tokenIds.increment();
-
-        // event for every minted NFT
-        emit mintNewChatPassNFT(msg.sender, newItemId);
+    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
+        if (_i == 0) {
+            return "0";
+        }
+        uint j = _i;
+        uint len;
+        while (j != 0) {
+            len++;
+            j /= 10;
+        }
+        bytes memory bstr = new bytes(len);
+        uint k = len;
+        while (_i != 0) {
+            k = k-1;
+            uint8 temp = (48 + uint8(_i - _i / 10 * 10));
+            bytes1 b1 = bytes1(temp);
+            bstr[k] = b1;
+            _i /= 10;
+        }
+        return string(bstr);
     }
 
-    function getSvg() private pure returns (string memory) {
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+        internal
+        override(ERC721, ERC721Enumerable)
+    {
+        super._beforeTokenTransfer(from, to, tokenId);
+    }
+
+    function _burn(uint256 tokenId) internal override(ERC721) onlyOwner {
+        super._burn(tokenId);
+    }
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, ERC721Enumerable)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
+    }
+
+    function mintNewChatPass( 
+        uint256 tokenId, 
+        string memory _name,
+        uint256 _number
+        ) 
+    public {
+        _safeMint(msg.sender, tokenId);
+        attributes[tokenId] = Attr(_name, _number);
+    }
+
+    function getSvg(uint tokenId) private pure returns (string memory) {
         string memory svg;
         svg = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><rect width='100%' height='100%'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' style='fill:#fff;font-family:serif;font-size:14px'>Chat Pass</text></svg>";
         return svg;
-    }
+    }    
 
-    function tokenURI(uint256 tokenId) override(ERC721) public pure returns (string memory) {
+    function tokenURI(uint256 tokenId) override(ERC721) public view returns (string memory) {
         string memory json = Base64.encode(
             bytes(string(
                 abi.encodePacked(
-                    '{"name": "', ChatPass [tokenId], '",',
-                    '"image_data": "', getSvg(), '",',
+                    '{"name": "', attributes[tokenId].name, '",',
+                    '"image_data": "', getSvg(tokenId), '",',
+                    '{"trait_type": "number", "value": ', uint2str(attributes[tokenId].number), '},',
                     ']}'
                 )
             ))
         );
         return string(abi.encodePacked('data:application/json;base64,', json));
-    }
+    }    
 }
