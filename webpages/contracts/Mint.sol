@@ -130,7 +130,6 @@ library Base64 {
 }
 
 contract Mint is ERC721, ERC721Enumerable, Ownable {
-    mapping(string => bool) private takenNames;
     mapping(uint256 => Attr) public attributes;
 
     struct Attr {
