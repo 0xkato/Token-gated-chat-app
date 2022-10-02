@@ -23,6 +23,8 @@ const initialState = {
 
 export default function Chat() {
 
+  let NFTHolder = false;
+
 // Create a reducer that will update the messages array
 function reducer(state, message) {
   return {
@@ -69,8 +71,11 @@ function reducer(state, message) {
     // This will check if your wallet have a balance of more than 0. 
     // If it's true, it means the wallet contains an NFT from your contract.
     const data = await contract.balanceOf("0x372Ed7923D0D8B354512d4068F50c29cFE042532");
-    return parseInt(data, 10) > 0;
+    if (data > 0){
+      NFTHolder = true;
+    }
   };
+  console.log(NFTHolder);
 
   // when the app loads, fetch the current messages and load them into the state
   // this also subscribes to new data as it changes and updates the local state
