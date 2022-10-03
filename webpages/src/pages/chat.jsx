@@ -24,7 +24,7 @@ const initialState = {
 
 export default function Chat() {
 
-  const [haveMetamask, sethaveMetamask] = useState(true);
+const [haveMetamask, sethaveMetamask] = useState(true);
 const [currentAccount, setCurrentAccount] = useState("");
 const [accountBalance, setAccountBalance] = useState("");
 const [isConnected, setIsConnected] = useState(false);
@@ -78,9 +78,6 @@ function reducer(state, message) {
 
       setCurrentAccount(accounts[0]); 
 
-      var name = await provider.lookupAddress(accounts[0]);
-      setEnsName(name);
-
       let balance = await provider.getBalance(accounts[0]);
       let bal = ethers.utils.formatEther(balance);
       setAccountBalance(bal);
@@ -90,15 +87,16 @@ function reducer(state, message) {
       setIsConnected(false);
     }
   };
+  console.log(currentAccount);
 
   const contractABI = abi.abi;
-  const { account } = useAccount;
-  const address = account;                                                     // Hook to fetch your wallet address
+  const address = currentAccount;                                                     // Hook to fetch your wallet address
   const contractAddress = "0xc134d653303c5c2baB45aC12305E925dc1B7d9cD";        // Your smart contract address
   const contract = useContract({                                               // Hook to fetch contract interface
       addressOrName: contractAddress,
       contractInterface: contractABI,
   });
+  console.log(address);
 
   const isNFTHolder = async () => {
     // This will check if your wallet have a balance of more than 0. 
@@ -108,6 +106,9 @@ function reducer(state, message) {
       NFTHolder = true;
     }
   };
+
+  console.log(contract.balanceOf(address));
+  console.log(NFTHolder);
 
   // when the app loads, fetch the current messages and load them into the state
   // this also subscribes to new data as it changes and updates the local state
