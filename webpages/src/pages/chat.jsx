@@ -8,6 +8,7 @@ import { ethers } from "ethers";
 import { useAccount, useContract } from "wagmi";
 
 
+
 // initialize gun locally
 const gun = Gun({
   peers: [
@@ -22,6 +23,15 @@ const initialState = {
 
 
 export default function Chat() {
+
+  const [haveMetamask, sethaveMetamask] = useState(true);
+const [currentAccount, setCurrentAccount] = useState("");
+const [accountBalance, setAccountBalance] = useState("");
+const [isConnected, setIsConnected] = useState(false);
+
+const { ethereum } = window;
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+
 
   let NFTHolder = false;
 
@@ -57,16 +67,38 @@ function reducer(state, message) {
     setForm({ ...formState, [e.target.name]: e.target.value  })
   }
 
+  const connectWallet = async () => {
+    try {
+      if (!ethereum) {
+        alert("Get MetaMask!");
+        return;
+      }
+
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts', });
+
+      setCurrentAccount(accounts[0]); 
+
+      var name = await provider.lookupAddress(accounts[0]);
+      setEnsName(name);
+
+      let balance = await provider.getBalance(accounts[0]);
+      let bal = ethers.utils.formatEther(balance);
+      setAccountBalance(bal);
+
+      setIsConnected(true);
+    } catch (error) {
+      setIsConnected(false);
+    }
+  };
+
   const contractABI = abi.abi;
-  const { account } = useAccount();      
+  const { account } = useAccount;
   const address = account;                                                     // Hook to fetch your wallet address
   const contractAddress = "0xc134d653303c5c2baB45aC12305E925dc1B7d9cD";        // Your smart contract address
   const contract = useContract({                                               // Hook to fetch contract interface
       addressOrName: contractAddress,
       contractInterface: contractABI,
   });
-
-  console.log(account);
 
   const isNFTHolder = async () => {
     // This will check if your wallet have a balance of more than 0. 
@@ -76,12 +108,18 @@ function reducer(state, message) {
       NFTHolder = true;
     }
   };
-  console.log(NFTHolder);
-  console.log(contractABI);
 
   // when the app loads, fetch the current messages and load them into the state
   // this also subscribes to new data as it changes and updates the local state
   useEffect(() => {
+    const { ethereum } = window; 
+      const checkMetamaskAvailability = async () => {
+        if (!ethereum) {
+          sethaveMetamask(false);
+        }
+        sethaveMetamask(true);
+      };
+      checkMetamaskAvailability();
     const messages = gun.get('messages')
     messages.map().on((message, id) => {
       dispatch(message)
@@ -95,7 +133,10 @@ function reducer(state, message) {
   }, [])
 
   return (
-    <div style={{ padding: 30 }}>
+    <div className="Chat"> 
+      {isConnected ? (
+
+      <div style={{ padding: 30 }}>
       <input
         maxLength={20} 
         onChange={onChange}
@@ -122,6 +163,13 @@ function reducer(state, message) {
           </div>
         ))
       }
+      </div>
+      ) : (
+        <button className="mint-bottom" onClick={connectWallet}>
+        mint NFT
+        </button>
+     )}
+
     </div>
   );
 }
