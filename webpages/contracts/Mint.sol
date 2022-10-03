@@ -5,6 +5,8 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+import "@openzeppelin/contracts/utils/Counters.sol";
+
 library Base64 {
     string internal constant TABLE_ENCODE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
     bytes  internal constant TABLE_DECODE = hex"0000000000000000000000000000000000000000000000000000000000000000"
@@ -130,14 +132,13 @@ library Base64 {
 }
 
 contract Mint is ERC721, ERC721Enumerable, Ownable {
-    mapping(uint256 => Attr) public attributes;
-
-    struct Attr {
-        string name;
-        uint256 number;
-    }
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
 
     constructor() ERC721("ChatPass", "Chat") {}
+
+    event mintNewChatPassNFT(address sender, uint256 tokenId);
+
 
     function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
         if (_i == 0) {
@@ -181,14 +182,12 @@ contract Mint is ERC721, ERC721Enumerable, Ownable {
         return super.supportsInterface(interfaceId);
     }
 
-    function mintNewChatPass( 
-        uint256 tokenId, 
-        string memory _name,
-        uint256 _number
-        ) 
-    public {
-        _safeMint(msg.sender, tokenId);
-        attributes[tokenId] = Attr(_name, _number);
+    function mintNewChatPass() public {
+        uint256 newItemId = _tokenIds.current();
+        _safeMint(msg.sender, newItemId);
+        _tokenIds.increment();
+        emit mintNewChatPassNFT(msg.sender, newItemId);
+
     }
 
     function getSvg(uint tokenId) private pure returns (string memory) {
@@ -201,9 +200,7 @@ contract Mint is ERC721, ERC721Enumerable, Ownable {
         string memory json = Base64.encode(
             bytes(string(
                 abi.encodePacked(
-                    '{"name": "', attributes[tokenId].name, '",',
-                    '"image_data": "', getSvg(tokenId), '",',
-                    '{"trait_type": "number", "value": ', uint2str(attributes[tokenId].number), '},',
+                    '{"image_data": ', 'getSvg(tokenId),'
                     ']}'
                 )
             ))

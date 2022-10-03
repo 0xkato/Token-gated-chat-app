@@ -55,7 +55,7 @@ function App() {
     // Mint ERC721 token
     const askContractToMintNft = async () => {
   
-      const CONTRACT_ADDRESS = "0x2e1e4F97Aa633c7fd8395a710140645d0F6016c0";
+      const CONTRACT_ADDRESS = "0xc134d653303c5c2baB45aC12305E925dc1B7d9cD";
         try {
           const { ethereum } = window;
     

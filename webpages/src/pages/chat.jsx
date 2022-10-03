@@ -58,24 +58,26 @@ function reducer(state, message) {
   }
 
   const contractABI = abi.abi;
-  const { accounts } = useAccount();      
-  const address = accounts;                                                     // Hook to fetch your wallet address
-  const contractAddress = "0xDbbEC1b79102B748F85C9dd8a86dC5888b836eb0";        // Your smart contract address
+  const { account } = useAccount();      
+  const address = account;                                                     // Hook to fetch your wallet address
+  const contractAddress = "0xc134d653303c5c2baB45aC12305E925dc1B7d9cD";        // Your smart contract address
   const contract = useContract({                                               // Hook to fetch contract interface
       addressOrName: contractAddress,
       contractInterface: contractABI,
   });
-  
+
+  console.log(account);
 
   const isNFTHolder = async () => {
     // This will check if your wallet have a balance of more than 0. 
     // If it's true, it means the wallet contains an NFT from your contract.
-    const data = await contract.balanceOf("0x372Ed7923D0D8B354512d4068F50c29cFE042532");
+    const data = await contract.balanceOf(address);
     if (data > 0){
       NFTHolder = true;
     }
   };
   console.log(NFTHolder);
+  console.log(contractABI);
 
   // when the app loads, fetch the current messages and load them into the state
   // this also subscribes to new data as it changes and updates the local state
