@@ -89,10 +89,18 @@ function reducer(state, message) {
   };
   console.log(currentAccount);
 
+
+  // contract abi from Mint.json
   const contractABI = abi.abi;
-  const address = currentAccount;                                                     // Hook to fetch your wallet address
-  const contractAddress = "0xc134d653303c5c2baB45aC12305E925dc1B7d9cD";        // Your smart contract address
-  const contract = useContract({                                               // Hook to fetch contract interface
+
+  // Hook to fetch your wallet address
+  const address = currentAccount; 
+  
+  // Your smart contract address
+  const contractAddress = "0xc134d653303c5c2baB45aC12305E925dc1B7d9cD";
+
+  // Hook to fetch contract interface
+  const contract = useContract({                                               
       addressOrName: contractAddress,
       contractInterface: contractABI,
   });
