@@ -33,7 +33,7 @@ const { ethereum } = window;
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
 
-  let NFTHolder = false;
+let NFTHolder = false;
 
 // Create a reducer that will update the messages array
 function reducer(state, message) {
@@ -105,6 +105,8 @@ function reducer(state, message) {
       contractInterface: contractABI,
   });
   console.log(address);
+
+  contract.connect(address);
 
   const isNFTHolder = async () => {
     // This will check if your wallet have a balance of more than 0. 
