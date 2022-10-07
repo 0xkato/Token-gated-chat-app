@@ -5,7 +5,8 @@ import moment from "moment";
 import "../App.jsx";
 import abi from "../utils/Mint.json";
 import { ethers } from "ethers";
-import { useAccount, useContract } from "wagmi";
+import '@ensdomains/ens-contracts/contracts/registry/ENS.sol';
+import { useAccount, useContract, useProvider } from "wagmi";
 
 
 
@@ -30,7 +31,7 @@ const [accountBalance, setAccountBalance] = useState("");
 const [isConnected, setIsConnected] = useState(false);
 
 const { ethereum } = window;
-const provider = new ethers.providers.Web3Provider(window.ethereum);
+const provider = useProvider();
 
 
 let NFTHolder = false;
@@ -87,8 +88,6 @@ function reducer(state, message) {
       setIsConnected(false);
     }
   };
-  console.log(currentAccount);
-
 
   // contract abi from Mint.json
   const contractABI = abi.abi;
@@ -103,21 +102,22 @@ function reducer(state, message) {
   const contract = useContract({                                               
       addressOrName: contractAddress,
       contractInterface: contractABI,
+      signerOrProvider: provider,
   });
-  console.log(address);
-
-  contract.connect(address);
-
+  console.log(NFTHolder);
   const isNFTHolder = async () => {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
     // This will check if your wallet have a balance of more than 0. 
     // If it's true, it means the wallet contains an NFT from your contract.
     const data = await contract.balanceOf(address);
+    console.log(address);
+    //const data = await contract.balanceOf(signer.getAddress());
     if (data > 0){
       NFTHolder = true;
-    }
+  }
   };
 
-  console.log(contract.balanceOf(address));
   console.log(NFTHolder);
 
   // when the app loads, fetch the current messages and load them into the state
@@ -177,7 +177,7 @@ function reducer(state, message) {
       </div>
       ) : (
         <button className="mint-bottom" onClick={connectWallet}>
-        mint NFT
+        connect wallet
         </button>
      )}
 
