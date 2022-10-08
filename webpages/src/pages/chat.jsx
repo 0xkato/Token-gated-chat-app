@@ -2,11 +2,10 @@ import React, { useEffect, useState, useReducer } from 'react';
 import Gun from 'gun';
 import "./chat.css";
 import moment from "moment";
-import "../App.jsx";
 import abi from "../utils/Mint.json";
 import { ethers } from "ethers";
 import '@ensdomains/ens-contracts/contracts/registry/ENS.sol';
-import { useAccount, useContract, useProvider } from "wagmi";
+import { useAccount, useProvider } from "wagmi";
 
 
 
@@ -33,8 +32,7 @@ const [isConnected, setIsConnected] = useState(false);
 const { ethereum } = window;
 const provider = useProvider();
 
-
-let NFTHolder = false;
+  const NFTHolder = false;
 
   // contract abi from Mint.json
   const contractABI = abi.abi;
@@ -44,13 +42,6 @@ let NFTHolder = false;
   
   // Your smart contract address
   const CONTRACT_ADDRESS="0xc134d653303c5c2baB45aC12305E925dc1B7d9cD";
-
-  // Hook to fetch contract interface
-  const contract = useContract({                                               
-      addressOrName: CONTRACT_ADDRESS,
-      contractInterface: contractABI,
-      signerOrProvider: provider,
-  });
 
 // Create a reducer that will update the messages array
 function reducer(state, message) {
@@ -91,11 +82,11 @@ function reducer(state, message) {
         return;
       }
 
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts', });
+      const address = await ethereum.request({ method: 'eth_requestAccounts', });
 
-      setCurrentAccount(accounts[0]); 
+      setCurrentAccount(address[0]); 
 
-      let balance = await provider.getBalance(accounts[0]);
+      let balance = await provider.getBalance(address[0]);
       let bal = ethers.utils.formatEther(balance);
       setAccountBalance(bal);
 
@@ -105,18 +96,20 @@ function reducer(state, message) {
     }
   };
 
+
   const isNFTHolder = async () => {
-    const CONTRACT_ADDRESS = "";
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
+    console.log(signer.getAddress());
+    const MINTCONTRACT = new ethers.Contract(CONTRACT_ADDRESS, abi.abi, signer);
+    console.log( MINTCONTRACT.balanceOf(currentAccount));
     // This will check if your wallet have a balance of more than 0. 
     // If it's true, it means the wallet contains an NFT from your contract.
+    const tokensOwned = await MINTCONTRACT.balanceOf(currentAccount);
+    console.log(tokensOwned);
     console.log("test");
-    const tokensOwned = await contract.methods.balanceOf(userAddress).call();
-    return tokensOwned;
+    return parseInt(tokensOwned, 10) > 0;
   };
-
-  console.log(tokensOwned);
 
   // when the app loads, fetch the current messages and load them into the state
   // this also subscribes to new data as it changes and updates the local state
