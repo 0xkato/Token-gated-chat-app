@@ -36,6 +36,22 @@ const provider = useProvider();
 
 let NFTHolder = false;
 
+  // contract abi from Mint.json
+  const contractABI = abi.abi;
+
+  // Hook to fetch your wallet address
+  const { userAddress } = currentAccount; 
+  
+  // Your smart contract address
+  const CONTRACT_ADDRESS="0xc134d653303c5c2baB45aC12305E925dc1B7d9cD";
+
+  // Hook to fetch contract interface
+  const contract = useContract({                                               
+      addressOrName: CONTRACT_ADDRESS,
+      contractInterface: contractABI,
+      signerOrProvider: provider,
+  });
+
 // Create a reducer that will update the messages array
 function reducer(state, message) {
   return {
@@ -89,36 +105,18 @@ function reducer(state, message) {
     }
   };
 
-  // contract abi from Mint.json
-  const contractABI = abi.abi;
-
-  // Hook to fetch your wallet address
-  const address = currentAccount; 
-  
-  // Your smart contract address
-  const contractAddress = "0xc134d653303c5c2baB45aC12305E925dc1B7d9cD";
-
-  // Hook to fetch contract interface
-  const contract = useContract({                                               
-      addressOrName: contractAddress,
-      contractInterface: contractABI,
-      signerOrProvider: provider,
-  });
-  console.log(NFTHolder);
   const isNFTHolder = async () => {
+    const CONTRACT_ADDRESS = "";
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
     // This will check if your wallet have a balance of more than 0. 
     // If it's true, it means the wallet contains an NFT from your contract.
-    const data = await contract.balanceOf(address);
-    console.log(address);
-    //const data = await contract.balanceOf(signer.getAddress());
-    if (data > 0){
-      NFTHolder = true;
-  }
+    console.log("test");
+    const tokensOwned = await contract.methods.balanceOf(userAddress).call();
+    return tokensOwned;
   };
 
-  console.log(NFTHolder);
+  console.log(tokensOwned);
 
   // when the app loads, fetch the current messages and load them into the state
   // this also subscribes to new data as it changes and updates the local state
@@ -131,15 +129,17 @@ function reducer(state, message) {
         sethaveMetamask(true);
       };
       checkMetamaskAvailability();
+
+      isNFTHolder().then((result) => {
+        console.log('isNFTHolder results',result);
+      }
+      );
+
     const messages = gun.get('messages')
     messages.map().on((message, id) => {
       dispatch(message)
     })
 
-    isNFTHolder().then((result) => {
-      console.log('isNFTHolder results',result);
-    }
-    );
 
   }, [])
 
