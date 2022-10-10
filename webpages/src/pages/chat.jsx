@@ -4,6 +4,7 @@ import "./chat.css";
 import moment from "moment";
 import abi from "../utils/Mint.json";
 import { ethers } from "ethers";
+import { Link } from "react-router-dom";
 import '@ensdomains/ens-contracts/contracts/registry/ENS.sol';
 import { useAccount, useProvider } from "wagmi";
 
@@ -101,13 +102,15 @@ function reducer(state, message) {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
     console.log(signer.getAddress());
+    console.log("Address ^^, balanceOf under");
     const MINTCONTRACT = new ethers.Contract(CONTRACT_ADDRESS, abi.abi, signer);
-    console.log( MINTCONTRACT.balanceOf(currentAccount));
+    console.log("this is before tokensOwned", Number(MINTCONTRACT.balanceOf(signer.getAddress())));
     // This will check if your wallet have a balance of more than 0. 
     // If it's true, it means the wallet contains an NFT from your contract.
-    const tokensOwned = await MINTCONTRACT.balanceOf(currentAccount);
-    console.log(tokensOwned);
-    console.log("test");
+    const tokensOwned = await MINTCONTRACT.balanceOf(signer.getAddress());
+    const OwnedTokens = Number(tokensOwned);
+    console.log("Tokens Owned:", Number(tokensOwned));
+    console.log("OwnedTokens", OwnedTokens);
     return parseInt(tokensOwned, 10) > 0;
   };
 
@@ -125,49 +128,55 @@ function reducer(state, message) {
 
       isNFTHolder().then((result) => {
         console.log('isNFTHolder results',result);
-      }
-      );
+      });
 
     const messages = gun.get('messages')
     messages.map().on((message, id) => {
       dispatch(message)
     })
-
-
   }, [])
 
   return (
     <div className="Chat"> 
       {isConnected ? (
 
-      <div style={{ padding: 30 }}>
-      <input
-        maxLength={20} 
-        onChange={onChange}
-        placeholder="Name"
-        name="name"
-        value={formState.name}
-      />
-      <input
-        maxLength={100} 
-        onChange={onChange}
-        placeholder="Message"
-        name="message"
-        value={formState.message}
-      />
-      <button onClick={saveMessage}>Send Message</button>
-      {
-        state.messages.map(message => (
-          <div key={message.createdAt} className="msg-box" >
-            <div className='msgs'>
-            <h4>From: {message.name}</h4>
-            <h4>{message.message}</h4>
-            <h4>Date: {moment(message.createdAt).format("LLL")}</h4>
+      <div className='NFTholder'>
+
+      {isNFTHolder ? (
+
+        <div style={{ padding: 30 }}>
+        <input
+          maxLength={20} 
+          onChange={onChange}
+          placeholder="Name"
+          name="name"
+          value={formState.name}
+        />
+        <input
+          maxLength={100} 
+          onChange={onChange}
+          placeholder="Message"
+          name="message"
+          value={formState.message}
+        />
+        <button onClick={saveMessage}>Send Message</button>
+        {
+          state.messages.map(message => (
+            <div key={message.createdAt} className="msg-box" >
+              <div className='msgs'>
+              <h4>From: {message.name}</h4>
+              <h4>{message.message}</h4>
+              <h4>Date: {moment(message.createdAt).format("LLL")}</h4>
+              </div>
             </div>
-          </div>
-        ))
-      }
+          ))
+        }
+        </div>
+      ) : (
+        <Link to="/Mint"><button>Mint Chatpass</button></Link>
+      )}
       </div>
+      
       ) : (
         <button className="mint-bottom" onClick={connectWallet}>
         connect wallet
