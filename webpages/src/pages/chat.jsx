@@ -5,8 +5,6 @@ import moment from "moment";
 import abi from "../utils/Mint.json";
 import { ethers } from "ethers";
 import { Link } from "react-router-dom";
-import '@ensdomains/ens-contracts/contracts/registry/ENS.sol';
-import { useAccount, useProvider } from "wagmi";
 
 
 
@@ -26,20 +24,11 @@ const initialState = {
 export default function Chat() {
 
 const [haveMetamask, sethaveMetamask] = useState(true);
+const [IsANFTHolder, setIsANFTHolder] = useState(false);
 const [currentAccount, setCurrentAccount] = useState("");
-const [accountBalance, setAccountBalance] = useState("");
 const [isConnected, setIsConnected] = useState(false);
 
 const { ethereum } = window;
-const provider = useProvider();
-
-  const NFTHolder = false;
-
-  // contract abi from Mint.json
-  const contractABI = abi.abi;
-
-  // Hook to fetch your wallet address
-  const { userAddress } = currentAccount; 
   
   // Your smart contract address
   const CONTRACT_ADDRESS="0xc134d653303c5c2baB45aC12305E925dc1B7d9cD";
@@ -87,10 +76,6 @@ function reducer(state, message) {
 
       setCurrentAccount(address[0]); 
 
-      let balance = await provider.getBalance(address[0]);
-      let bal = ethers.utils.formatEther(balance);
-      setAccountBalance(bal);
-
       setIsConnected(true);
     } catch (error) {
       setIsConnected(false);
@@ -101,16 +86,20 @@ function reducer(state, message) {
   const isNFTHolder = async () => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
-    console.log(signer.getAddress());
-    console.log("Address ^^, balanceOf under");
     const MINTCONTRACT = new ethers.Contract(CONTRACT_ADDRESS, abi.abi, signer);
-    console.log("this is before tokensOwned", Number(MINTCONTRACT.balanceOf(signer.getAddress())));
     // This will check if your wallet have a balance of more than 0. 
     // If it's true, it means the wallet contains an NFT from your contract.
     const tokensOwned = await MINTCONTRACT.balanceOf(signer.getAddress());
     const OwnedTokens = Number(tokensOwned);
-    console.log("Tokens Owned:", Number(tokensOwned));
-    console.log("OwnedTokens", OwnedTokens);
+    console.log("tokensOwned: ", OwnedTokens)
+    try {
+    if (OwnedTokens >= 1){
+      setIsANFTHolder(true);
+      console.log("IsANFTHolder", IsANFTHolder);
+    }} catch (error) {
+      setIsANFTHolder(false);
+    }
+    console.log("IsANFTHolder ",IsANFTHolder);
     return parseInt(tokensOwned, 10) > 0;
   };
 
@@ -142,7 +131,7 @@ function reducer(state, message) {
 
       <div className='NFTholder'>
 
-      {isNFTHolder ? (
+      {IsANFTHolder ? (
 
         <div style={{ padding: 30 }}>
         <input
@@ -173,8 +162,9 @@ function reducer(state, message) {
         }
         </div>
       ) : (
-        <Link to="/Mint"><button>Mint Chatpass</button></Link>
+        <Link to="/Mint"><button className='mint-bottom'>Mint Chatpass</button></Link>
       )}
+      
       </div>
       
       ) : (
