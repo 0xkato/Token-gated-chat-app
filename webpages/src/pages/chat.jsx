@@ -95,11 +95,9 @@ function reducer(state, message) {
     try {
     if (OwnedTokens >= 1){
       setIsANFTHolder(true);
-      console.log("IsANFTHolder", IsANFTHolder);
     }} catch (error) {
       setIsANFTHolder(false);
     }
-    console.log("IsANFTHolder ",IsANFTHolder);
     return parseInt(tokensOwned, 10) > 0;
   };
 
