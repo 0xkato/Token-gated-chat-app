@@ -1,7 +1,7 @@
-This is my first project.
+Token gated chat app.
 
-In its final form it will be a token gated chat app.
+<code>node index.js</code>
 
-I will post updates when i do major changes on my twitter.
+<code>yarn start</code>
 
 Any feedback is highly appreciated!
