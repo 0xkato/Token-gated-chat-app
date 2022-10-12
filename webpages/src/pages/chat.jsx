@@ -30,7 +30,7 @@ const [isConnected, setIsConnected] = useState(false);
 
 const { ethereum } = window;
   
-  // Your smart contract address
+  // The smart contract address
   const CONTRACT_ADDRESS="0xc134d653303c5c2baB45aC12305E925dc1B7d9cD";
 
 // Create a reducer that will update the messages array
@@ -82,14 +82,14 @@ function reducer(state, message) {
     }
   };
 
-
+    // This will check if your wallet have a balance of more than 0. 
+    // If it's true, it means the wallet contains an NFT from your contract.
   const isNFTHolder = async () => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
     const MINTCONTRACT = new ethers.Contract(CONTRACT_ADDRESS, abi.abi, signer);
-    // This will check if your wallet have a balance of more than 0. 
-    // If it's true, it means the wallet contains an NFT from your contract.
     const tokensOwned = await MINTCONTRACT.balanceOf(signer.getAddress());
+    //This shows number of tokens owned by the users wallet
     const OwnedTokens = Number(tokensOwned);
     console.log("tokensOwned: ", OwnedTokens)
     try {
