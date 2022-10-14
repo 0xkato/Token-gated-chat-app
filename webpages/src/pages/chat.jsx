@@ -87,6 +87,7 @@ function reducer(state, message) {
   const isNFTHolder = async () => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
+    // call get balance from our contract
     const MINTCONTRACT = new ethers.Contract(CONTRACT_ADDRESS, abi.abi, signer);
     const tokensOwned = await MINTCONTRACT.balanceOf(signer.getAddress());
     //This shows number of tokens owned by the users wallet
