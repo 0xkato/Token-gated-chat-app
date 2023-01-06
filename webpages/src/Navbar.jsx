@@ -17,7 +17,7 @@ class Navbar extends Component {
           </div>
           <a
             className="navbar-twitter-logo"
-            href="http://www.twitter.com/0xkato1"
+            href="http://www.twitter.com/0xkato"
           >
             <img src={twitter} className="twitter-logo" alt="twitter logo" height="43px"/>
           </a> 
